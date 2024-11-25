@@ -13,7 +13,7 @@ import com.github.chrisbanes.photoview.PhotoView
 
 class GlideHelper {
     private val TAG = "GlideHelper"
-    fun loadGif(context: Context, url: String, imageView: ImageView) {
+    fun loadGif(context: Context, url: String, imageView: PhotoView) {
         Glide.with(context)
             .load(url)
             .listener(object : RequestListener<Drawable> {
