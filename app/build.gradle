@@ -51,4 +51,5 @@ dependencies {
     implementation("jp.wasabeef:glide-transformations:4.3.0")
     implementation("org.ow2.asm:asm:7.1")
     implementation("org.ow2.asm:asm-commons:7.1")
+    implementation("com.squareup.okhttp3:okhttp:4.9.2")
 }
