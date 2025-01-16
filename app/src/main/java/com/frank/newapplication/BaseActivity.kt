@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 
 open class BaseActivity : AppCompatActivity() {
-    private val logTag by lazy {
+    val logTag by lazy {
         this.javaClass.simpleName + "#"
     }
 
