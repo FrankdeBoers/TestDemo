@@ -1,6 +1,7 @@
 package com.frank.newapplication
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -20,7 +21,7 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStream
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -45,6 +46,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initClick() {
+        binding.startSecondActivity.setOnClickListener {
+            startActivity(Intent(this, SecondActivity::class.java))
+        }
+
         binding.longLink.setOnClickListener {
             webSocket.connect()
         }
