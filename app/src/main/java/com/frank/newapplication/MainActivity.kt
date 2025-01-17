@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.frank.newapplication.coroutine.CoroutineActivity
 import com.frank.newapplication.databinding.ActivityMainBinding
 import com.frank.newapplication.glide.GlideHelper
 import com.frank.newapplication.threadpool.ThreadPoolActivity
@@ -58,6 +59,10 @@ class MainActivity : BaseActivity() {
 
         binding.startThread.setOnClickListener {
             startActivity(Intent(this, ThreadPoolActivity::class.java))
+        }
+
+        binding.startCoroutineActivity.setOnClickListener {
+            startActivity(Intent(this, CoroutineActivity::class.java))
         }
 
         binding.longLink.setOnClickListener {

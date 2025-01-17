@@ -36,6 +36,10 @@
         <activity
         android:name=".threadpool.ThreadPoolActivity"
         android:exported="true" />
+
+        <activity
+            android:name=".coroutine.CoroutineActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
