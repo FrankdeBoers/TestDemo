@@ -33,6 +33,9 @@
         <activity
             android:name=".weakreference.WeakReferenceActivity"
             android:exported="true" />
+        <activity
+        android:name=".threadpool.ThreadPoolActivity"
+        android:exported="true" />
     </application>
 
 </manifest>

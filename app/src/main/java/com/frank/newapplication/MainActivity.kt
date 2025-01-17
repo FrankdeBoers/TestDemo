@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.frank.newapplication.databinding.ActivityMainBinding
 import com.frank.newapplication.glide.GlideHelper
+import com.frank.newapplication.threadpool.ThreadPoolActivity
 import com.frank.newapplication.weakreference.WeakReferenceActivity
 import okhttp3.*
 import java.io.File
@@ -53,6 +54,10 @@ class MainActivity : BaseActivity() {
 
         binding.startWeakActivity.setOnClickListener {
             startActivity(Intent(this, WeakReferenceActivity::class.java))
+        }
+
+        binding.startThread.setOnClickListener {
+            startActivity(Intent(this, ThreadPoolActivity::class.java))
         }
 
         binding.longLink.setOnClickListener {
