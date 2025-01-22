@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -45,13 +46,23 @@ class CoroutineActivity : BaseActivity() {
                 val file1 = "/data/data/com.frank.newapplication/files/HoYowave_mac_x64_1.13.0-alpha(0117.094509.dev.1a1ee434ac).dmg"
                 val file2 = "/data/data/com.frank.newapplication/files/HoYowave_mac_x64_1.13.0-alpha(0117.094509.dev.1a1ee434ac)_副本2.dmg"
                 val hash1 = async {
+                    delay(300L)
+                    Log.i("FrankTest", "$logTag coroutine# hash1 start name:${Thread.currentThread().name}")
                     getHash(file1)
                 }
                 val hash2 = async {
-                    delay(1000L)
+                    delay(100L)
                     getHash(file2)
+                    Log.i("FrankTest", "$logTag coroutine# hash2 start name:${Thread.currentThread().name}")
                 }
 
+                coroutineScope {
+
+                }
+
+                delay(2000L)
+                Log.i("FrankTest", "$logTag coroutine# delay 2000ms")
+                delay(100L)
                 val result = "hash1:${hash1.await()}, hash2:${hash2.await()}"
                 Log.i("FrankTest", "$logTag coroutine# cost:${System.currentTimeMillis() - startTime},result:$result")
             }

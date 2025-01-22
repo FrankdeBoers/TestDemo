@@ -40,6 +40,10 @@
         <activity
             android:name=".coroutine.CoroutineActivity"
             android:exported="true" />
+
+        <activity
+            android:name=".BitmapActivity.BitmapActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
