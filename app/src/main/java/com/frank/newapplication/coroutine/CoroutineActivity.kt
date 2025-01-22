@@ -16,13 +16,15 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 class CoroutineActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCoroutineBinding
-
+    @Volatile
+    var a = true
     private val exceptionHandler = CoroutineExceptionHandler { coroutineContext: CoroutineContext, throwable: Throwable ->
         Log.e("FrankTest", "$logTag coroutine# exceptionHandler:${throwable}")
     }
@@ -110,6 +112,23 @@ class CoroutineActivity : BaseActivity() {
                 Log.i("FrankTest", "$logTag supervisorJobCoroutine3")
                 throw Exception("supervisorJobCoroutine3 failed!!")
             }
+        }
+
+        binding.multiThreadVisible.setOnClickListener {
+            var i = 0
+
+            for (j in 0 until 1000) {
+                Thread({
+                    i++
+                }).start()
+                Thread({
+                    i++
+                }).start()
+            }
+
+
+            Thread.sleep(200)
+            Log.i("FrankTest", "$logTag multiThreadVisible i:$i")
         }
     }
 
