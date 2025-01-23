@@ -17,6 +17,7 @@ open class BaseActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Log.i("FrankTest", "$logTag onStart")
+        initClickEvent()
     }
 
     override fun onResume() {
@@ -33,4 +34,6 @@ open class BaseActivity : AppCompatActivity() {
         super.onStop()
         Log.i("FrankTest", "$logTag onStop")
     }
+
+    open fun initClickEvent() {}
 }
