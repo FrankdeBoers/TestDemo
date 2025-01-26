@@ -64,5 +64,14 @@ class BitmapActivity : BaseActivity() {
             }
             Glide.with(this).asBitmap().load(R.mipmap.ic_launcher111).into(target)
         }
+
+        binding.oom.setOnClickListener {
+            Log.i("FrankTest", "$logTag oom click")
+            val list = mutableListOf(1)
+            var i = 0
+            while(true) {
+                list.add(i++)
+            }
+        }
     }
 }

@@ -17,6 +17,7 @@ import com.frank.newapplication.BitmapActivity.BitmapActivity
 import com.frank.newapplication.coroutine.CoroutineActivity
 import com.frank.newapplication.databinding.ActivityMainBinding
 import com.frank.newapplication.glide.GlideHelper
+import com.frank.newapplication.handler.BarrierActivity
 import com.frank.newapplication.http.OkhttpActivity
 import com.frank.newapplication.threadpool.ThreadPoolActivity
 import com.frank.newapplication.weakreference.WeakReferenceActivity
@@ -73,6 +74,10 @@ class MainActivity : BaseActivity() {
 
         binding.startOkHttp.setOnClickListener {
             startActivity(Intent(this, OkhttpActivity::class.java))
+        }
+
+        binding.startBarrier.setOnClickListener {
+            startActivity(Intent(this, BarrierActivity::class.java))
         }
 
         binding.longLink.setOnClickListener {

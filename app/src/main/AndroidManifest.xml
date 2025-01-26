@@ -48,6 +48,9 @@
         <activity
             android:name=".http.OkhttpActivity"
             android:exported="true" />
+        <activity
+            android:name=".handler.BarrierActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
