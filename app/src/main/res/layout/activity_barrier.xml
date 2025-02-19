@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.google.android.flexbox.FlexboxLayout
+    <com.google.android.flexboxcustom.FlexboxLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -25,6 +25,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-    </com.google.android.flexbox.FlexboxLayout>
+    </com.google.android.flexboxcustom.FlexboxLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

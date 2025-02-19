@@ -3,7 +3,7 @@ import android.graphics.Rect
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexboxcustom.FlexboxLayoutManager
 
 class LastItemPaddingDecoration(context: Context, private val layoutManager: FlexboxLayoutManager) : RecyclerView.ItemDecoration() {
     // 从资源文件中获取 paddingEnd 的数值（例如 16dp）

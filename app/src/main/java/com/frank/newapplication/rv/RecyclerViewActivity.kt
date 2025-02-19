@@ -4,20 +4,14 @@ import LastItemPaddingDecoration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.frank.newapplication.R
+import androidx.core.view.doOnNextLayout
 import com.frank.newapplication.databinding.ActivityRvBinding
-import com.google.android.flexbox.AlignItems
-import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.FlexboxLayout
-import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
-import com.google.android.material.chip.ChipGroup
-import kotlin.random.Random
-import kotlin.random.nextInt
+import com.google.android.flexboxcustom.AlignItems
+import com.google.android.flexboxcustom.FlexDirection
+import com.google.android.flexboxcustom.FlexWrap
+import com.google.android.flexboxcustom.FlexboxLayoutManager
+import com.google.android.flexboxcustom.JustifyContent
 
 
 class RecyclerViewActivity : AppCompatActivity() {
@@ -71,110 +65,135 @@ class RecyclerViewActivity : AppCompatActivity() {
 
         binding.rview.addItemDecoration(LastItemPaddingDecoration(this, flexboxLayoutManager))
 
-        val text0 = TextView(this).apply {
-            text = "aaaa1234567890abcd"
-        }
-
-        val text1 = TextView(this).apply {
-            text = "bbbb1234567890abcd"
-
-        }
-
-        val text2 = TextView(this).apply {
-            text = "cccc1234567890abcd"
-
-        }
-        val text3 = TextView(this).apply {
-            text = "dddd1234567890abcd"
-
-        }
-        val text4 = TextView(this).apply {
-            text = "eeee1234567890abcd"
-
-        }
-        binding.chipGroup.addView(text0)
-        binding.chipGroup.addView(text1)
-        binding.chipGroup.addView(text2)
-        binding.chipGroup.addView(text3)
-        binding.chipGroup.addView(text4)
-
-        // 监听 ChipGroup 的布局变化
-        binding.chipGroup.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-            override fun onLayoutChange(
-                v: View,
-                left: Int,
-                top: Int,
-                right: Int,
-                bottom: Int,
-                oldLeft: Int,
-                oldTop: Int,
-                oldRight: Int,
-                oldBottom: Int,
-            ) {
-                val childCount = binding.chipGroup.childCount
-                var lastEndX = 0
-                var lastIndex = 0
-
-                for (i in 0 until childCount) {
-                    val chip = binding.chipGroup.getChildAt(i) as TextView
-                    val endX = chip.right
-                    Log.d("Test###", "i:$i, endX:$endX, lastEndX:$lastEndX")
-                    if (!(endX < lastEndX || i == childCount - 1)) {
-                        // 当前 Chip 是新的一行或者是最后一个 Chip
-                        if (i > 0) {
-                            // 修改上一行最后一个 Chip 的边距
-                            val lastChip = binding.chipGroup.getChildAt(lastIndex) as TextView
-                            val params = lastChip.layoutParams as ChipGroup.LayoutParams
-                            params.marginEnd = 0 // 设置右边距
-                            lastChip.layoutParams = params
-                        }
-                        lastIndex = i
-                    }
-                    lastEndX = endX
-                }
-                // 移除监听，避免重复计算
-                binding.chipGroup.removeOnLayoutChangeListener(this)
+        binding.rview.doOnNextLayout {
+            val flexLines = (binding.rview.layoutManager as? FlexboxLayoutManager)?.flexLines
+            Log.d("Test###", "doOnNextLayout $flexLines")
+            flexLines?.forEachIndexed { index, flexLine ->
+                Log.d("Test###", "doOnNextLayout 第:$index 行, 一行有:${flexLine.itemCount}个 firstIndex:${flexLine.firstIndex}")
             }
-        })
-
-
-        val flexboxLayout = binding.flexboxLayout
-        flexboxLayout.addOnLayoutChangeListener(listener)
-
-        // 模拟添加一些子视图
-        val itemCount = 30
-        for (i in 0 until itemCount) {
-            val textView = TextView(this)
-            textView.text = "Item_" + Random.nextInt(10000000)
-            textView.setBackgroundResource(android.R.drawable.btn_default)
-            val layoutParams = FlexboxLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            textView.layoutParams = layoutParams
-            textView.setPadding(
-                textView.paddingLeft,
-                textView.paddingTop,
-                50,
-                textView.paddingBottom
-            )
-            flexboxLayout.addView(textView)
+            flexLines?.let {
+                val lastLine = flexLines.last().firstIndex
+                val endIndex = flexLines.last().firstIndex + flexLines.last().itemCount
+                Log.d("Test###", "doOnNextLayout lastLine:$lastLine, endIndex:$endIndex")
+                for (i in lastLine until endIndex) {
+                    val childView = binding.rview.getChildAt(i)
+                    Log.d("Test###", "doOnNextLayout i:$i, childView:$childView")
+                    childView?.apply {
+                        setPadding(
+                            paddingLeft,
+                            paddingTop,
+                            paddingRight,
+                            0
+                        )
+                    }
+                }
+            }
         }
-        val textView = TextView(this)
-        textView.text = "通过判断子视图的右边界是否超出布局的右边界来确定每行的最后一个元素"
-        textView.setBackgroundResource(android.R.drawable.btn_default)
-        val layoutParams = FlexboxLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        textView.layoutParams = layoutParams
-        textView.setPadding(
-            textView.paddingLeft,
-            textView.paddingTop,
-            50,
-            textView.paddingBottom
-        )
-        flexboxLayout.addView(textView)
+
+//        val text0 = TextView(this).apply {
+//            text = "aaaa1234567890abcd"
+//        }
+//
+//        val text1 = TextView(this).apply {
+//            text = "bbbb1234567890abcd"
+//
+//        }
+//
+//        val text2 = TextView(this).apply {
+//            text = "cccc1234567890abcd"
+//
+//        }
+//        val text3 = TextView(this).apply {
+//            text = "dddd1234567890abcd"
+//
+//        }
+//        val text4 = TextView(this).apply {
+//            text = "eeee1234567890abcd"
+//
+//        }
+//        binding.chipGroup.addView(text0)
+//        binding.chipGroup.addView(text1)
+//        binding.chipGroup.addView(text2)
+//        binding.chipGroup.addView(text3)
+//        binding.chipGroup.addView(text4)
+//
+//        // 监听 ChipGroup 的布局变化
+//        binding.chipGroup.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+//            override fun onLayoutChange(
+//                v: View,
+//                left: Int,
+//                top: Int,
+//                right: Int,
+//                bottom: Int,
+//                oldLeft: Int,
+//                oldTop: Int,
+//                oldRight: Int,
+//                oldBottom: Int,
+//            ) {
+//                val childCount = binding.chipGroup.childCount
+//                var lastEndX = 0
+//                var lastIndex = 0
+//
+//                for (i in 0 until childCount) {
+//                    val chip = binding.chipGroup.getChildAt(i) as TextView
+//                    val endX = chip.right
+//                    Log.d("Test###", "i:$i, endX:$endX, lastEndX:$lastEndX")
+//                    if (!(endX < lastEndX || i == childCount - 1)) {
+//                        // 当前 Chip 是新的一行或者是最后一个 Chip
+//                        if (i > 0) {
+//                            // 修改上一行最后一个 Chip 的边距
+//                            val lastChip = binding.chipGroup.getChildAt(lastIndex) as TextView
+//                            val params = lastChip.layoutParams as ChipGroup.LayoutParams
+//                            params.marginEnd = 0 // 设置右边距
+//                            lastChip.layoutParams = params
+//                        }
+//                        lastIndex = i
+//                    }
+//                    lastEndX = endX
+//                }
+//                // 移除监听，避免重复计算
+//                binding.chipGroup.removeOnLayoutChangeListener(this)
+//            }
+//        })
+//
+//
+//        val flexboxLayout = binding.flexboxLayout
+//        flexboxLayout.addOnLayoutChangeListener(listener)
+//
+//        // 模拟添加一些子视图
+//        val itemCount = 30
+//        for (i in 0 until itemCount) {
+//            val textView = TextView(this)
+//            textView.text = "Item_" + Random.nextInt(10000000)
+//            textView.setBackgroundResource(android.R.drawable.btn_default)
+//            val layoutParams = FlexboxLayout.LayoutParams(
+//                ViewGroup.LayoutParams.WRAP_CONTENT,
+//                ViewGroup.LayoutParams.WRAP_CONTENT
+//            )
+//            textView.layoutParams = layoutParams
+//            textView.setPadding(
+//                textView.paddingLeft,
+//                textView.paddingTop,
+//                50,
+//                textView.paddingBottom
+//            )
+//            flexboxLayout.addView(textView)
+//        }
+//        val textView = TextView(this)
+//        textView.text = "通过判断子视图的右边界是否超出布局的右边界来确定每行的最后一个元素"
+//        textView.setBackgroundResource(android.R.drawable.btn_default)
+//        val layoutParams = FlexboxLayout.LayoutParams(
+//            ViewGroup.LayoutParams.WRAP_CONTENT,
+//            ViewGroup.LayoutParams.WRAP_CONTENT
+//        )
+//        textView.layoutParams = layoutParams
+//        textView.setPadding(
+//            textView.paddingLeft,
+//            textView.paddingTop,
+//            50,
+//            textView.paddingBottom
+//        )
+//        flexboxLayout.addView(textView)
 
     }
 
