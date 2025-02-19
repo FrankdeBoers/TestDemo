@@ -65,7 +65,7 @@
             app:flexDirection="row"
             app:flexWrap="wrap">
 
-            <TextView
+           <!-- <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/darker_gray"
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/darker_gray"
                 android:paddingVertical="8dp"
-                android:text="Item 5" />
+                android:text="Item 5" />-->
         </com.google.android.flexbox.FlexboxLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 

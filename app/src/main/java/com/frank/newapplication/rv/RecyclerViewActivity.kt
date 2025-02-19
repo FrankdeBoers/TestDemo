@@ -4,7 +4,7 @@ import LastItemPaddingDecoration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.frank.newapplication.R
@@ -15,9 +15,9 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import org.w3c.dom.Text
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 
 class RecyclerViewActivity : AppCompatActivity() {
@@ -73,28 +73,23 @@ class RecyclerViewActivity : AppCompatActivity() {
 
         val text0 = TextView(this).apply {
             text = "aaaa1234567890abcd"
-            setBackgroundColor(com.google.android.material.R.color.design_default_color_primary)
         }
 
         val text1 = TextView(this).apply {
             text = "bbbb1234567890abcd"
-            setBackgroundColor(com.google.android.material.R.color.design_default_color_primary)
 
         }
 
         val text2 = TextView(this).apply {
             text = "cccc1234567890abcd"
-            setBackgroundColor(com.google.android.material.R.color.design_default_color_primary)
 
         }
         val text3 = TextView(this).apply {
             text = "dddd1234567890abcd"
-            setBackgroundColor(com.google.android.material.R.color.design_default_color_primary)
 
         }
         val text4 = TextView(this).apply {
             text = "eeee1234567890abcd"
-            setBackgroundColor(com.google.android.material.R.color.design_default_color_primary)
 
         }
         binding.chipGroup.addView(text0)
@@ -146,6 +141,41 @@ class RecyclerViewActivity : AppCompatActivity() {
         val flexboxLayout = binding.flexboxLayout
         flexboxLayout.addOnLayoutChangeListener(listener)
 
+        // 模拟添加一些子视图
+        val itemCount = 30
+        for (i in 0 until itemCount) {
+            val textView = TextView(this)
+            textView.text = "Item_" + Random.nextInt(10000000)
+            textView.setBackgroundResource(android.R.drawable.btn_default)
+            val layoutParams = FlexboxLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            textView.layoutParams = layoutParams
+            textView.setPadding(
+                textView.paddingLeft,
+                textView.paddingTop,
+                50,
+                textView.paddingBottom
+            )
+            flexboxLayout.addView(textView)
+        }
+        val textView = TextView(this)
+        textView.text = "通过判断子视图的右边界是否超出布局的右边界来确定每行的最后一个元素"
+        textView.setBackgroundResource(android.R.drawable.btn_default)
+        val layoutParams = FlexboxLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        textView.layoutParams = layoutParams
+        textView.setPadding(
+            textView.paddingLeft,
+            textView.paddingTop,
+            50,
+            textView.paddingBottom
+        )
+        flexboxLayout.addView(textView)
+
     }
 
     private val listener = object : View.OnLayoutChangeListener {
@@ -169,9 +199,12 @@ class RecyclerViewActivity : AppCompatActivity() {
                 if (endX < lastEndX || i == binding.flexboxLayout.childCount - 1) {
                     if (i > 0) {
                         val lastChild = binding.flexboxLayout.getChildAt(lastIndex)
-                        val layoutParams = lastChild.layoutParams as FlexboxLayout.LayoutParams
-                        layoutParams.width = lastChild.measuredWidth + 200 // 设置右边距
-                        lastChild.layoutParams = layoutParams
+                        lastChild.setPadding(
+                            lastChild.paddingLeft,
+                            lastChild.paddingTop,
+                            0,
+                            lastChild.paddingBottom
+                        )
                     }
                     lastIndex = i
                 }
