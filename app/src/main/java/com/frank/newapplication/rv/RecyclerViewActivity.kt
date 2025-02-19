@@ -46,11 +46,13 @@ class RecyclerViewActivity : AppCompatActivity() {
 
     private fun initView() {
         //设置流式布局
-        val flexboxLayoutManager = WrapLayoutManager();
+//        val flexboxLayoutManager = FlexboxLayoutManager(this);
 //        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP); //设置是否换行
 //        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW); // 设置主轴排列方式
 //        flexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
 //        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+
+        val flexboxLayoutManager = WrapLayoutManager();
         binding.rview.setLayoutManager(flexboxLayoutManager);
         // 创建适配器
         adapter = MultiSelectAdapter(data) { isChecked, model ->
