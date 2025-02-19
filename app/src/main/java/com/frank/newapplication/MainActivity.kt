@@ -1,12 +1,12 @@
 package com.frank.newapplication
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -19,6 +19,7 @@ import com.frank.newapplication.databinding.ActivityMainBinding
 import com.frank.newapplication.glide.GlideHelper
 import com.frank.newapplication.handler.BarrierActivity
 import com.frank.newapplication.http.OkhttpActivity
+import com.frank.newapplication.rv.RecyclerViewActivity
 import com.frank.newapplication.threadpool.ThreadPoolActivity
 import com.frank.newapplication.weakreference.WeakReferenceActivity
 import okhttp3.*
@@ -49,6 +50,10 @@ class MainActivity : BaseActivity() {
 
 
         initClick()
+
+        Log.i("FrankTest", "$logTag classLoader## String: ${String.Companion::class.java.classLoader}")
+        Log.i("FrankTest", "$logTag classLoader## Activity: ${Activity::class.java.classLoader}")
+        Log.i("FrankTest", "$logTag classLoader## MainActivity: ${MainActivity::class.java.classLoader}")
     }
 
     private fun initClick() {
@@ -78,6 +83,10 @@ class MainActivity : BaseActivity() {
 
         binding.startBarrier.setOnClickListener {
             startActivity(Intent(this, BarrierActivity::class.java))
+        }
+
+        binding.startRV.setOnClickListener {
+            startActivity(Intent(this, RecyclerViewActivity::class.java))
         }
 
         binding.longLink.setOnClickListener {

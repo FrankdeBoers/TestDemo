@@ -180,5 +180,13 @@
             android:text="Barrier"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/startRV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RecyclerView测试"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </com.google.android.flexbox.FlexboxLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
