@@ -3,8 +3,11 @@ package com.frank.newapplication.http
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.widget.ViewPager2
 import com.frank.newapplication.BaseActivity
+import com.frank.newapplication.R
 import com.frank.newapplication.databinding.ActivityOkhttpBinding
+import com.frank.newapplication.fragment.ViewPagerAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,6 +27,14 @@ class OkhttpActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityOkhttpBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val viewPager = findViewById<ViewPager2>(R.id.viewPager)
+        val adapter = ViewPagerAdapter(this)
+        viewPager.adapter = adapter
+
+        binding.root.postDelayed(
+            {adapter.refreshData(listOf("111", "222"))},
+            1000L)
     }
 
 
