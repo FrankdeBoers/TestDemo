@@ -7,6 +7,7 @@ import android.os.Handler.Callback
 import android.os.Looper
 import android.os.Message
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import com.frank.newapplication.BaseActivity
 import com.frank.newapplication.databinding.ActivityBarrierBinding
 import kotlin.random.Random
@@ -36,6 +37,7 @@ class BarrierActivity : BaseActivity() {
     })
 
     private fun start() {
+        lifecycleScope
         handler.sendEmptyMessageDelayed(1, 200L)
     }
 

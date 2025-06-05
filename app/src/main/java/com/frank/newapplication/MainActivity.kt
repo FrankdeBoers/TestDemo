@@ -18,6 +18,7 @@ import com.frank.newapplication.coroutine.CoroutineActivity
 import com.frank.newapplication.databinding.ActivityMainBinding
 import com.frank.newapplication.glide.GlideHelper
 import com.frank.newapplication.handler.BarrierActivity
+import com.frank.newapplication.handler.BarrierActivity2
 import com.frank.newapplication.http.OkhttpActivity
 import com.frank.newapplication.rv.RecyclerViewActivity
 import com.frank.newapplication.threadpool.ThreadPoolActivity
@@ -53,7 +54,7 @@ class MainActivity : BaseActivity() {
 
         Log.i("FrankTest", "$logTag classLoader## String: ${String.Companion::class.java.classLoader}")
         Log.i("FrankTest", "$logTag classLoader## Activity: ${Activity::class.java.classLoader}")
-        Log.i("FrankTest", "$logTag classLoader## MainActivity: ${MainActivity::class.java.classLoader}")
+        Log.i("FrankTest", "$logTag classLoader## BarrierActivity2: ${MainActivity::class.java.classLoader}")
     }
 
     private fun initClick() {
@@ -82,7 +83,7 @@ class MainActivity : BaseActivity() {
         }
 
         binding.startBarrier.setOnClickListener {
-            startActivity(Intent(this, BarrierActivity::class.java))
+            startActivity(Intent(this, BarrierActivity2::class.java))
         }
 
         binding.startRV.setOnClickListener {
