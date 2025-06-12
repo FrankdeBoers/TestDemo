@@ -263,6 +263,10 @@ class MainActivity : BaseActivity() {
                     "" +
                     "最后，这个逻辑写完后，我们需要考虑一个问题，如何进行在规定时间内调用该服务器，当然可以用Thread+Handler(这个不是那么稳定),也可以使用AlamManager+Thread（比较稳定），因为我们需要其在后台一直运行，所以可以依靠系统的Alammanager这个类来实现，Alammanager是属于系统的一个闹钟提醒类，通过它我们能实现在规定间隔时间调用，并且也比较稳定，这个service被杀后会自己自动启动服务。")
         }
+
+        binding.startSecureActivity.setOnClickListener {
+            startActivity(Intent(this, Class.forName("com.example.syncbarrierdemo.SecureActivity")))
+        }
     }
 
     fun isGif(inputStream: InputStream): Boolean {

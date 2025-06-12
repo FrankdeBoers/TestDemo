@@ -57,6 +57,10 @@
             android:name=".handler.BarrierActivity2"
             android:exported="true" />
 
+        <activity
+            android:name="com.example.syncbarrierdemo.SecureActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

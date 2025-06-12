@@ -188,5 +188,13 @@
             android:text="RecyclerView测试"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/startSecureActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="安全页面（禁止截屏）"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </com.google.android.flexboxcustom.FlexboxLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
