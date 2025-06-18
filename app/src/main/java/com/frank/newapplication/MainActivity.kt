@@ -134,6 +134,9 @@ class MainActivity : BaseActivity() {
             },
             Pair("KeyStore用法演示") {
                 startActivity(Intent(this, KeyStoreDemoActivity::class.java))
+            },
+            Pair("Fragment版生物识别演示") {
+                startActivity(Intent(this, BiometricFragmentHostActivity::class.java))
             }
         )
         btnList.forEach { (text, action) ->

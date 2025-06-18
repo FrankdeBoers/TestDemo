@@ -65,6 +65,10 @@
             android:name=".KeyStoreDemoActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".BiometricFragmentHostActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
