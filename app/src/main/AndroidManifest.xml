@@ -61,6 +61,10 @@
             android:name="com.example.syncbarrierdemo.SecureActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".KeyStoreDemoActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

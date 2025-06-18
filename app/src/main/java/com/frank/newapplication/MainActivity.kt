@@ -131,6 +131,9 @@ class MainActivity : BaseActivity() {
             },
             Pair("安全页面（禁止截屏）") {
                 startActivity(Intent(this, Class.forName("com.example.syncbarrierdemo.SecureActivity")))
+            },
+            Pair("KeyStore用法演示") {
+                startActivity(Intent(this, KeyStoreDemoActivity::class.java))
             }
         )
         btnList.forEach { (text, action) ->
