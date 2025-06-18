@@ -84,4 +84,5 @@ dependencies {
     // 可选：动画、图标等
     implementation 'androidx.compose.animation:animation'
     implementation 'androidx.compose.material:material-icons-extended'
+    implementation 'androidx.biometric:biometric:1.1.0'
 }

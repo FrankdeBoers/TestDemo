@@ -6,17 +6,21 @@ import android.util.Base64
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import androidx.biometric.BiometricPrompt
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
+@RequiresApi(Build.VERSION_CODES.R)
 class KeyStoreDemoActivity : ComponentActivity() {
     private val alias = "demo_key_alias"
     private val transformation = "AES/CBC/PKCS7Padding"
@@ -26,8 +30,8 @@ class KeyStoreDemoActivity : ComponentActivity() {
     private var iv: ByteArray? = null
     private lateinit var rsaPublicKey: java.security.PublicKey
     private lateinit var rsaPrivateKey: java.security.PrivateKey
+    private val bioAlias = "biometric_key_alias"
 
-    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
@@ -36,20 +40,9 @@ class KeyStoreDemoActivity : ComponentActivity() {
         loadRSAKeyPair()
         setContent {
             MaterialTheme {
-                KeyStoreDemoScreen(
-                    onEncrypt = { plain ->
-                        val encrypted = encrypt(plain)
-                        Base64.encodeToString(encrypted, Base64.DEFAULT) to iv
-                    },
-                    onDecrypt = { encrypted, iv ->
-                        if (encrypted != null && iv != null) decrypt(encrypted, iv) else ""
-                    },
-                    onRSAEncrypt = { plain ->
-                        val encrypted = rsaEncrypt(plain)
-                        Base64.encodeToString(encrypted, Base64.DEFAULT)
-                    },
-                    onRSADecrypt = { encrypted ->
-                        if (encrypted != null) rsaDecrypt(encrypted) else ""
+                BiometricDemoScreen(
+                    onCreateBioKey = { createBiometricKeyIfNecessary() },
+                    onEncryptWithBio = { plain, onResult ->
                     }
                 )
             }
@@ -177,65 +170,74 @@ class KeyStoreDemoActivity : ComponentActivity() {
         val decrypted = cipher.doFinal(cipherText)
         return String(decrypted, Charsets.UTF_8)
     }
+
+    /**
+     * 生成一个需要指纹（生物识别）认证才能访问的对称密钥
+     * 该密钥只能在用户通过生物识别（如指纹、人脸）认证后才能被使用，适合高安全场景。
+     * 需要Android 9(P)及以上。
+     */
+    @RequiresApi(Build.VERSION_CODES.R)
+    private fun createBiometricKeyIfNecessary() {
+        if (!keyStore.containsAlias(bioAlias)) {
+            val keyGenerator = KeyGenerator.getInstance("AES", "AndroidKeyStore")
+            val builder = android.security.keystore.KeyGenParameterSpec.Builder(
+                bioAlias,
+                android.security.keystore.KeyProperties.PURPOSE_ENCRYPT or android.security.keystore.KeyProperties.PURPOSE_DECRYPT
+            )
+                .setBlockModes(android.security.keystore.KeyProperties.BLOCK_MODE_CBC)
+                .setEncryptionPaddings(android.security.keystore.KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                .setRandomizedEncryptionRequired(true)
+                .setUserAuthenticationRequired(true)
+                .setUserAuthenticationValidityDurationSeconds(0)
+                .setUserAuthenticationParameters(0, android.security.keystore.KeyProperties.AUTH_BIOMETRIC_STRONG)
+            try {
+                builder.setIsStrongBoxBacked(true)
+                keyGenerator.init(builder.build())
+                keyGenerator.generateKey()
+            } catch (e: Exception) {
+                builder.setIsStrongBoxBacked(false)
+                keyGenerator.init(builder.build())
+                keyGenerator.generateKey()
+            }
+        }
+    }
+
+
 }
 
 @Composable
-fun KeyStoreDemoScreen(
-    onEncrypt: (String) -> Pair<String, ByteArray?>,
-    onDecrypt: (ByteArray?, ByteArray?) -> String,
-    onRSAEncrypt: (String) -> String,
-    onRSADecrypt: (ByteArray?) -> String
+fun BiometricDemoScreen(
+    onCreateBioKey: () -> Unit,
+    onEncryptWithBio: (String, (String) -> Unit) -> Unit
 ) {
-    var aesInput by remember { mutableStateOf("") }
-    var aesEncrypted by remember { mutableStateOf("") }
-    var aesDecrypted by remember { mutableStateOf("") }
-    var aesIv: ByteArray? by remember { mutableStateOf(null) }
+    var input by remember { mutableStateOf("") }
+    var result by remember { mutableStateOf("") }
 
-    var rsaInput by remember { mutableStateOf("") }
-    var rsaEncrypted by remember { mutableStateOf("") }
-    var rsaDecrypted by remember { mutableStateOf("") }
-
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text("AES对称加密", style = MaterialTheme.typography.titleMedium)
+    Column(Modifier.padding(24.dp)) {
         OutlinedTextField(
-            value = aesInput,
-            onValueChange = { aesInput = it },
+            value = input,
+            onValueChange = { input = it },
             label = { Text("输入要加密的内容") },
             modifier = Modifier.fillMaxWidth()
         )
-        Row(Modifier.padding(vertical = 8.dp)) {
-            Button(onClick = {
-                val (enc, iv) = onEncrypt(aesInput)
-                aesEncrypted = enc
-                aesIv = iv
-            }) { Text("加密") }
-            Spacer(Modifier.width(8.dp))
-            Button(onClick = {
-                val bytes = if (aesEncrypted.isNotEmpty()) Base64.decode(aesEncrypted, Base64.DEFAULT) else null
-                aesDecrypted = onDecrypt(bytes, aesIv)
-            }) { Text("解密") }
+        Spacer(Modifier.height(16.dp))
+        Button(onClick = {
+            onCreateBioKey()
+            result = "生物识别密钥已生成（如已存在则无操作）"
+        }) {
+            Text("生成生物识别密钥")
         }
-        Text("加密后: $aesEncrypted", modifier = Modifier.padding(vertical = 2.dp))
-        Text("解密后: $aesDecrypted", modifier = Modifier.padding(vertical = 2.dp))
+        Spacer(Modifier.height(16.dp))
+        Button(onClick = {
+            if (input.isNotEmpty()) {
+                onEncryptWithBio(input) { msg -> result = msg }
+            } else {
+                result = "请输入内容"
+            }
+        }) {
+            Text("指纹认证并加密")
+        }
         Spacer(Modifier.height(24.dp))
-        Text("RSA非对称加密", style = MaterialTheme.typography.titleMedium)
-        OutlinedTextField(
-            value = rsaInput,
-            onValueChange = { rsaInput = it },
-            label = { Text("RSA加密内容") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Row(Modifier.padding(vertical = 8.dp)) {
-            Button(onClick = {
-                rsaEncrypted = onRSAEncrypt(rsaInput)
-            }) { Text("RSA加密") }
-            Spacer(Modifier.width(8.dp))
-            Button(onClick = {
-                val bytes = if (rsaEncrypted.isNotEmpty()) Base64.decode(rsaEncrypted, Base64.DEFAULT) else null
-                rsaDecrypted = onRSADecrypt(bytes)
-            }) { Text("RSA解密") }
-        }
-        Text("RSA加密后: $rsaEncrypted", modifier = Modifier.padding(vertical = 2.dp))
-        Text("RSA解密后: $rsaDecrypted", modifier = Modifier.padding(vertical = 2.dp))
+        Text(result)
     }
-} 
+}
