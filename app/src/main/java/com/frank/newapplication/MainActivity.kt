@@ -22,6 +22,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.frank.newapplication.BitmapActivity.BitmapActivity
 import com.frank.newapplication.coroutine.CoroutineActivity
+import com.frank.newapplication.databinding.ActivityMainBinding
 import com.frank.newapplication.glide.GlideHelper
 import com.frank.newapplication.handler.BarrierActivity2
 import com.frank.newapplication.http.OkhttpActivity
@@ -38,17 +39,13 @@ import java.io.InputStream
 class MainActivity : BaseActivity() {
 
     private val webSocket = SocketManager()
-
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         // 动态创建FlexboxLayout作为主布局
-        val flexboxLayout = FlexboxLayout(this).apply {
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            // 可根据需要设置wrap属性等
-        }
+        val flexboxLayout = binding.flexboxLayout
 
         // 1. 图片展示控件 PhotoView
         val photoView = PhotoView(this).apply {
@@ -150,7 +147,6 @@ class MainActivity : BaseActivity() {
             flexboxLayout.addView(btn)
         }
 
-        setContentView(flexboxLayout)
         Log.i("Main##", "model:${Build.MODEL}")
         isGifFile("/data/data/com.frank.newapplication/files/happy-cat.gif")
         isGifFile(this, "/data/data/com.frank.newapplication/files/happy-cat_副本.jpg") {
