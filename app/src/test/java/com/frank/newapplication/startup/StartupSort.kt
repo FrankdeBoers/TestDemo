@@ -1,5 +1,6 @@
 package com.frank.newapplication.startup
 
+import java.util.Deque
 import java.util.LinkedList
 import java.util.Queue
 
@@ -8,6 +9,16 @@ object StartupSort {
     fun sort(inputTasks: List<StartUp<*>>): List<StartUp<*>> {
         // 记录结果
         val resultList = mutableListOf<StartUp<*>>()
+
+        val stack: Deque<Int> = LinkedList()
+        stack.push(1)
+        stack.pop()
+
+        val queue: Queue<Int> = LinkedList()
+        queue.offer(1)
+        queue.poll()
+        queue.peek()
+
 
         // 记录每个任务的入度，会实时递减
         val inDegreeMap = hashMapOf<Class<out StartUp<*>>, Int>()
