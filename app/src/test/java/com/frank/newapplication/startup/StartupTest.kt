@@ -30,7 +30,7 @@ class StartupTest {
     @Test
     fun testSelf() {
         // 定义所有需要执行的任务
-        val allTasks = listOf(
+        val allTasks: List<StartUp<*>> = listOf(
             Task5(),
             Task4(),
             Task3(),

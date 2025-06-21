@@ -5,7 +5,7 @@ import java.util.Queue
 
 object StartupSort {
     // 拓扑排序
-    fun sort(inputTasks: List<StartUp<*>>): List<StartUp<*>>  {
+    fun sort(inputTasks: List<StartUp<*>>): List<StartUp<*>> {
         // 记录结果
         val resultList = mutableListOf<StartUp<*>>()
 
@@ -86,12 +86,74 @@ object StartupSort {
      * @param startupList 所有任务
      */
     fun run(startupList: List<StartUp<*>>) {
-        val sortedTasks = StartupSort.sort(startupList)
+        val sortedTasks = StartupSort.sort2(startupList)
         println("Startup# Sorted order:")
         sortedTasks.forEach { task ->
             println("Startup# -> ${task.javaClass.simpleName}")
             task.create()
         }
         println("Startup# All tasks finished.")
+    }
+
+    fun sort2(inputList: List<StartUp<*>>): List<StartUp<*>> {
+        val resultList = mutableListOf<StartUp<*>>()
+        // 入度map
+        val inDegreeMap = hashMapOf<Class<out StartUp<*>>, Int>()
+        // 前向依赖map 1指向了2、3；1消费后，2、3任务的入度需要减一
+        // 1:[2,3]     3:[5]    4:[5]
+        val forwardDependMap = hashMapOf<Class<out StartUp<*>>, MutableList<Class<out StartUp<*>>>>()
+        // 查找提速
+        val inputMap = inputList.associateBy { it.javaClass }
+
+        // 入度为0的表
+        val zeroQueue: Queue<Class<out StartUp<*>>> = LinkedList()
+
+        // 1. 首先构建前向依赖map
+        for (task in inputList) {
+            inDegreeMap[task.javaClass] = task.dependenciesCount
+            if (task.dependenciesCount <= 0) {
+                if (forwardDependMap[task.javaClass] == null) {
+                    forwardDependMap[task.javaClass] = mutableListOf()
+                }
+            } else {
+                // 如果不为零，说明对其他任务有依赖，就要构建依赖map
+                for (dependency in task.dependencies()) {
+                    // 取出依赖，task = task5，dependency = [3,4] 会循环两次
+                    var newList = forwardDependMap[dependency]
+                    if (newList.isNullOrEmpty()) {
+                        newList = mutableListOf<Class<out StartUp<*>>>()
+                        forwardDependMap[dependency] = newList
+                    }
+                    // 3 指向了5， 当3移除时，5的入度减一
+                    newList.add(task.javaClass)
+                }
+            }
+        }
+
+        // 2. 入度为0的入表
+        inDegreeMap.filterValues { it <= 0 }.keys.forEach {
+            zeroQueue.offer(it)
+        }
+
+        // 3. BFS
+        while (zeroQueue.isNotEmpty()) {
+            val currentTaskClass = zeroQueue.poll()
+            // 入度为0，添加到结果列表
+            if ((inDegreeMap[currentTaskClass] ?: 0) <= 0) {
+                inputMap[currentTaskClass]?.let {
+                    resultList.add(it)
+                }
+            }
+
+            // 查找后续的task
+            // 查找被影响的task
+            forwardDependMap[currentTaskClass]?.forEach { nextTaskClass ->
+                inDegreeMap[nextTaskClass] = (inDegreeMap[nextTaskClass] ?: 0) - 1
+                if ((inDegreeMap[nextTaskClass] ?: 0) <= 0) {
+                    zeroQueue.offer(nextTaskClass)
+                }
+            }
+        }
+        return resultList
     }
 }

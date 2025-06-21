@@ -12,4 +12,8 @@ class Task1 : AndroidStartup<Unit>() {
     override fun dependencies(): MutableList<Class<out com.frank.newapplication.startup.StartUp<*>>> {
         return mutableListOf()
     }
+
+    override fun hashCode(): Int {
+        return "task1".hashCode()
+    }
 }
