@@ -73,6 +73,8 @@
 
         <activity android:name=".ServiceManagerCacheActivity" android:exported="true" />
 
+        <activity android:name=".CanvasScreenshotActivity" android:exported="true" />
+
     </application>
 
 </manifest>

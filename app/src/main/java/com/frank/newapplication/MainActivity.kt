@@ -143,6 +143,9 @@ class MainActivity : BaseActivity() {
             },
             Pair("ServiceManager sCache查看") {
                 startActivity(Intent(this, ServiceManagerCacheActivity::class.java))
+            },
+            Pair("Canvas截图演示") {
+                startActivity(Intent(this, CanvasScreenshotActivity::class.java))
             }
         )
         btnList.forEach { (text, action) ->
