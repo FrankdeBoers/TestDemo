@@ -137,6 +137,12 @@ class MainActivity : BaseActivity() {
             },
             Pair("Fragment版生物识别演示") {
                 startActivity(Intent(this, BiometricFragmentHostActivity::class.java))
+            },
+            Pair("Thread状态演示") {
+                startActivity(Intent(this, ThreadStateActivity::class.java))
+            },
+            Pair("ServiceManager sCache查看") {
+                startActivity(Intent(this, ServiceManagerCacheActivity::class.java))
             }
         )
         btnList.forEach { (text, action) ->

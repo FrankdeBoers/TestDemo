@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_current_state"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="当前线程状态：-"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="#FFF8E1"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_current_state"
+        app:layout_constraintBottom_toTopOf="@+id/btn_new"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="8dp"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:id="@+id/thread_state_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thread 状态日志：\n"
+            android:textSize="15sp"
+            android:background="#EEEEEE"
+            android:padding="8dp"/>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_new"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="演示 NEW 状态"
+        app:layout_constraintTop_toBottomOf="@id/scrollView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btn_runnable"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="演示 RUNNABLE 状态"
+        app:layout_constraintTop_toBottomOf="@id/btn_new"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btn_blocked"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="演示 BLOCKED 状态"
+        app:layout_constraintTop_toBottomOf="@id/btn_runnable"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btn_waiting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="演示 WAITING 状态"
+        app:layout_constraintTop_toBottomOf="@id/btn_blocked"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btn_timed_waiting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="演示 TIMED_WAITING 状态"
+        app:layout_constraintTop_toBottomOf="@id/btn_waiting"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btn_terminated"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="演示 TERMINATED 状态"
+        app:layout_constraintTop_toBottomOf="@id/btn_timed_waiting"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btn_reset"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="重置演示"
+        app:layout_constraintTop_toBottomOf="@id/btn_terminated"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout> 
