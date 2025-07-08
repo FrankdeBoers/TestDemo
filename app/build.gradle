@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -86,6 +88,28 @@ dependencies {
     implementation 'androidx.compose.animation:animation'
     implementation 'androidx.compose.material:material-icons-extended'
     implementation 'androidx.biometric:biometric:1.1.0'
+
+    android {
+        aaptOptions {
+            File publicTxtFile = project.rootProject.file('public.txt')
+            //public文件存在，则应用，不存在则生成
+            if (publicTxtFile.exists()) {
+                project.logger.error "${publicTxtFile} exists, apply it."
+                //aapt2添加--stable-ids参数应用
+                aaptOptions.additionalParameters("--stable-ids", "${publicTxtFile}")
+            } else {
+                project.logger.error "${publicTxtFile} rootProject:${project.rootProject}."
+                project.logger.error "${publicTxtFile} not exists, generate it."
+                //aapt2添加--emit-ids参数生成
+                boolean success = aaptOptions.additionalParameters("--emit-ids", "${publicTxtFile}")
+                project.logger.error "success:${success}"
+            }
+        }
+    }
+
+    implementation "com.google.dagger:hilt-android:2.51"
+    kapt "com.google.dagger:hilt-android-compiler:2.51"
+
 }
 
 task method {

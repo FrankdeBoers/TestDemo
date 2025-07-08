@@ -4,6 +4,7 @@ import android.os.*
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.util.Pools
 import androidx.lifecycle.lifecycleScope
 import com.frank.newapplication.R
 import kotlinx.coroutines.launch
@@ -20,6 +21,12 @@ class BarrierActivity2 : AppCompatActivity() {
     private lateinit var btnInsert: Button
     private lateinit var btnDetect: Button
     private lateinit var btnRemove: Button
+    
+    private  val  handler = object : Handler(Looper.getMainLooper()) {
+        override fun dispatchMessage(msg: Message) {
+            super.dispatchMessage(msg)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +97,8 @@ class BarrierActivity2 : AppCompatActivity() {
         } catch (e: Exception) {
             tvStatus.append("\n插入屏障失败: ${e.message}")
         }
+
+        val pool = Pools.SynchronizedPool<String>(20)
     }
 
     /**

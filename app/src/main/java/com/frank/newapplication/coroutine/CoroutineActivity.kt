@@ -33,6 +33,7 @@ class CoroutineActivity : BaseActivity() {
     private val supervisorScope = CoroutineScope(SupervisorJob() + exceptionHandler)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Int.MAX_VALUE
         super.onCreate(savedInstanceState)
         binding = ActivityCoroutineBinding.inflate(layoutInflater)
         setContentView(binding.root)

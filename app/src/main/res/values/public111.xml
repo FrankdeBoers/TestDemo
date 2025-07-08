@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 固定所有string资源的ID，建议从0x7f030001递增分配 -->
+    <public type="string" name="app_name" id="0x7f100192" />
+    <public type="string" name="app_test" id="0x7f100193" />
+
+</resources> 
