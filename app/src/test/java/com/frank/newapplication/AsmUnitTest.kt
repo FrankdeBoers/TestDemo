@@ -1,5 +1,11 @@
 package com.frank.newapplication
 
+import com.frank.newapplication.startup.StartUp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.junit.Test
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassVisitor
@@ -30,6 +36,7 @@ class AsmUnitTest {
         fis.close()
     }
 
+
 }
 
 
@@ -54,4 +61,51 @@ class CustomVisitor : ClassVisitor {
         }
         return mv
     }
+
+
+//    fun sortArray(nums: List<Int>) {
+//        quick(nums, 0, nums.size - 1)
+//    }
+//
+//    fun quick(nums: List<Int>, start: Int, end: Int) {
+//        if (start < end) {
+//            val poivt = part(nums, start, end)
+//            quick(nums, start, poivt - 1)
+//            quick(nums, poivt + 1, end)
+//        }
+//    }
+//
+//    fun part(nums: List<Int>, start: Int, end: Int): Int {
+//        val baseIndex = start
+//        val baseValue = nums[baseIndex]
+//        var left = start
+//        var right = end
+//
+//        while (left < right) {
+//            // 从右边查找第一个小于基准值的
+//            while (left < right && nums[right] >= baseValue) {
+//                right--
+//            }
+//
+//            // 从左查找第一个大于基准值的
+//            while (left < right && nums[left] <= baseValue) {
+//                left++
+//            }
+//
+//            // 交换不满足条件的左右元素
+//            if (left < right) {
+//                swap(nums, left, right)
+//            }
+//        }
+//
+//        swap(nums, baseIndex, left)
+//        return left // 返回基准值最终位置
+//
+//    }
+//
+//    private fun swap(nums: List<Int>, first: Int, second: Int) {
+//        val temp = nums[first]
+//        nums[first] = nums[second]
+//        nums[second] = temp
+//    }
 }

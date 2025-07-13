@@ -146,9 +146,6 @@ class MainActivity : BaseActivity() {
             },
             Pair("Canvas截图演示") {
                 startActivity(Intent(this, CanvasScreenshotActivity::class.java))
-            },
-            Pair("Hilt依赖注入演示") {
-                startActivity(Intent(this, HiltDemoActivity::class.java))
             }
         )
         btnList.forEach { (text, action) ->
