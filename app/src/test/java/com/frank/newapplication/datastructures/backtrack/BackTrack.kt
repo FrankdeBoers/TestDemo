@@ -27,47 +27,40 @@ package com.frank.newapplication.datastructures.backtrack
  *
  * */
 class BackTrack {
-    private val result = mutableListOf<List<Int>>()
+    val result = mutableListOf<List<Int>>()
 
-    // 输入一组不重复的数字，返回他们的全排列
     fun permute(nums: IntArray): List<List<Int>> {
-        // 记录 路径
-        val track = mutableListOf<Int>()
-        // 路径 中的元素会被标记为true，避免重复使用
+        // used记录的是某个节点是否被选择过了
         val used = BooleanArray(nums.size)
 
+        // 记录走过的合法路径
+        val track = mutableListOf<Int>()
         backtrack(nums, track, used)
-
         return result
     }
 
-    // 路径：记录在track中
-    // 选择列表：nums 中不存在track的那些元素（used[i] = false）
-    // 结束条件：nums 中的元素全部都在track中出现
     private fun backtrack(nums: IntArray, track: MutableList<Int>, used: BooleanArray) {
-        // 触发结束条件
-        if (track.size == nums.size) {
+        // 判断当前路径是否已经到达尾部
+        if (nums.size == track.size) {
             result.add(track.toList())
-            return
         }
 
         for (i in 0 until nums.size) {
-            // 排除不合法的选择
+            // 当前节点，在这个路径下，被使用过了，需要跳过
             if (used.getOrNull(i) == true) {
-                // nums[i] 已经在track中，跳过
                 continue
             }
 
-            // 做选择
+            // 处理当前节点
             track.add(nums[i])
             used[i] = true
 
-            // 进入下一层决策树
+            // 查找下一个节点
             backtrack(nums, track, used)
 
-            // 取消选择
-            track.removeLast()
             used[i] = false
+            track.removeLast()
         }
+
     }
 }
