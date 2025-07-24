@@ -1,6 +1,8 @@
 package com.frank.newapplication.solid.openclose.bank
 
 import org.junit.Test
+import java.util.LinkedList
+import java.util.Queue
 
 // 面向接口抽象
 class Bank2 {
@@ -9,6 +11,7 @@ class Bank2 {
         val bankClient = StoreClient()
         val bankBusiness = bankClient.getBankBusiness()
         bankBusiness.process()
+
     }
 }
 
