@@ -6,40 +6,84 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- 标题区域 -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="协程性能监控演示"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 说明文字 -->
+    <TextView
+        android:id="@+id/descriptionText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="点击下方按钮体验不同级别的协程性能监控功能，查看Logcat输出详细性能信息"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleText" />
+
     <com.google.android.flexboxcustom.FlexboxLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         app:flexWrap="wrap"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/descriptionText">
 
         <Button
             android:id="@+id/startCoroutine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="启动协程"
-            android:textSize="20dp" />
+            android:text="基础协程演示"
+            android:textSize="16dp" />
 
         <Button
             android:id="@+id/jobCoroutine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="jobCoroutine"
-            android:textSize="20dp" />
+            android:text="Job协程演示"
+            android:textSize="16dp" />
 
         <Button
             android:id="@+id/supervisorJobCoroutine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="supervisorJobCoroutine"
-            android:textSize="20dp" />
+            android:text="SupervisorJob演示"
+            android:textSize="16dp" />
 
         <Button
             android:id="@+id/multiThreadVisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="线程可见性"
-            android:textSize="20dp" />
+            android:text="线程可见性测试"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/performanceMonitor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="启动性能监控演示"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/performanceReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看性能报告"
+            android:textSize="16dp" />
     </com.google.android.flexboxcustom.FlexboxLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

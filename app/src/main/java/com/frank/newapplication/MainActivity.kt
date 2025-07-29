@@ -114,7 +114,12 @@ class MainActivity : BaseActivity() {
             Pair("线程池") {
                 startActivity(Intent(this, ThreadPoolActivity::class.java))
             },
-            Pair("协程+线程") {
+            Pair("协程性能监控") {
+                // 启动协程性能监控演示页面
+                // 包含三种不同级别的协程监控方案：
+                // 1. 基础ContinuationInterceptor监控
+                // 2. 性能监控辅助类
+                // 3. 高级协程拦截器（包含慢协程检测）
                 startActivity(Intent(this, CoroutineActivity::class.java))
             },
             Pair("图片加载") {
