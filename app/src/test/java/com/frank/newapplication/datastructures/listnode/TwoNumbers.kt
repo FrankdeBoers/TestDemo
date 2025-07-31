@@ -33,36 +33,35 @@ package com.frank.newapplication.datastructures.listnode
 
 class TwoNumbers {
     fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode? {
-        var newHead: ListNode? = ListNode(101)
+        var newHead: ListNode? = ListNode(-1)
         val dummy = newHead
-        var pre = 0
-        var node1 = l1
-        var node2 = l2
-        while (node1 != null || node2 != null) {
-            val currentNode = ListNode(-1)
-            val currentValue = (node1?.`val` ?: 0) + (node2?.`val` ?: 0) + pre
+        var carry = 0
+        var head1 = l1
+        var head2 = l2
+        while (head1 != null || head2 != null) {
+            var currentValue = head1.value() + head2.value() + carry
+            carry = 0
             if (currentValue >= 10) {
-                pre = 1
-                currentNode.`val` = currentValue - 10
-            } else {
-                pre = 0
-                currentNode.`val` = currentValue
+                currentValue -= 10
+                carry = 1
             }
-            node1 = node1?.next
-            node2 = node2?.next
-            if (newHead?.`val` == 101) {
-                newHead?.`val` = currentNode.`val`
-            } else {
-                newHead?.next = currentNode
-                newHead = newHead?.next
-            }
+
+            newHead?.next = ListNode(currentValue)
+            newHead = newHead?.next
+
+            head1 = head1?.next
+            head2 = head2?.next
         }
 
-        if (pre == 1) {
+        if (carry == 1) {
             newHead?.next = ListNode(1)
         }
 
-        return dummy
+        return dummy?.next
+    }
+
+    private fun ListNode?.value(): Int {
+        return this?.`val` ?: 0
     }
 }
 
