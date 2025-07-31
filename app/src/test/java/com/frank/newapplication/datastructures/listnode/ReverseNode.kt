@@ -44,4 +44,17 @@ class ReverseNode {
 
         return pre
     }
+
+    // 递归写法
+    fun reverseList1(head: ListNode?): ListNode? {
+        // 到达最后一个节点了，返回，开始执行
+        if (head == null || head.next == null) {
+            return head
+        }
+
+        val last = reverseList1(head.next)
+        head.next?.next = head
+        head?.next = null
+        return last
+    }
 }
