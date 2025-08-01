@@ -75,6 +75,10 @@
 
         <activity android:name=".CanvasScreenshotActivity" android:exported="true" />
 
+        <activity
+            android:name=".coroutine.CoroutineExceptionDemoActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

@@ -22,6 +22,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.frank.newapplication.BitmapActivity.BitmapActivity
 import com.frank.newapplication.coroutine.CoroutineActivity
+import com.frank.newapplication.coroutine.CoroutineExceptionDemoActivity
 import com.frank.newapplication.databinding.ActivityMainBinding
 import com.frank.newapplication.glide.GlideHelper
 import com.frank.newapplication.handler.BarrierActivity2
@@ -121,6 +122,11 @@ class MainActivity : BaseActivity() {
                 // 2. 性能监控辅助类
                 // 3. 高级协程拦截器（包含慢协程检测）
                 startActivity(Intent(this, CoroutineActivity::class.java))
+            },
+            Pair("协程异常保护演示") {
+                // 启动协程异常保护演示页面
+                // 展示全局协程异常处理机制
+                startActivity(Intent(this, CoroutineExceptionDemoActivity::class.java))
             },
             Pair("图片加载") {
                 startActivity(Intent(this, BitmapActivity::class.java))
