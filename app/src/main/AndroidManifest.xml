@@ -79,6 +79,18 @@
             android:name=".coroutine.CoroutineExceptionDemoActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".nestedscroll.NestedScrollActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".nestedscroll.CoordinatorLayoutActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".nestedscroll.NestedScrollDemoActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

@@ -27,6 +27,9 @@ import com.frank.newapplication.databinding.ActivityMainBinding
 import com.frank.newapplication.glide.GlideHelper
 import com.frank.newapplication.handler.BarrierActivity2
 import com.frank.newapplication.http.OkhttpActivity
+import com.frank.newapplication.nestedscroll.CoordinatorLayoutActivity
+import com.frank.newapplication.nestedscroll.NestedScrollActivity
+import com.frank.newapplication.nestedscroll.NestedScrollDemoActivity
 import com.frank.newapplication.rv.RecyclerViewActivity
 import com.frank.newapplication.threadpool.ThreadPoolActivity
 import com.frank.newapplication.weakreference.WeakReferenceActivity
@@ -157,6 +160,15 @@ class MainActivity : BaseActivity() {
             },
             Pair("Canvas截图演示") {
                 startActivity(Intent(this, CanvasScreenshotActivity::class.java))
+            },
+            Pair("嵌套滚动演示") {
+                startActivity(Intent(this, NestedScrollActivity::class.java))
+            },
+            Pair("CoordinatorLayout演示") {
+                startActivity(Intent(this, CoordinatorLayoutActivity::class.java))
+            },
+            Pair("简化嵌套滚动演示") {
+                startActivity(Intent(this, NestedScrollDemoActivity::class.java))
             }
         )
         btnList.forEach { (text, action) ->
