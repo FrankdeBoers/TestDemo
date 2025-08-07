@@ -42,24 +42,30 @@ class ThreadPoolBlock {
     )
 
     private var count = 0
+    private var atomicCount = AtomicInteger(0)
 
     private lateinit var runnableA: Runnable
     private lateinit var runnableB: Runnable
 
+    @Test
     fun testBlock() {
         runnableA = Runnable {
             count++
-            println("Frank## threadPool# runnableA# count:$count, thread:${Thread.currentThread().name}")
+            atomicCount.getAndIncrement()
+//            println("Frank## threadPool# runnableA# count:$count, thread:${Thread.currentThread().name}")
             threadPoolA.execute(runnableB)
         }
 
         runnableB = Runnable {
             count++
-            println("Frank## threadPool# runnableB# count:$count, thread:${Thread.currentThread().name}")
+//            atomicCount.getAndIncrement()
+//            println("Frank## threadPool#runnableB# count:$count, thread:${Thread.currentThread().name}")
             threadPoolB.execute(runnableA)
         }
 
         threadPoolA.execute(runnableB)
 
+        Thread.sleep(100)
+        println("Frank## threadPool# count:$count, atomicCount:${atomicCount.get()}")
     }
 }
