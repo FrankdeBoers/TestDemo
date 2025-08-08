@@ -1,14 +1,17 @@
 package com.frank.newapplication.coroutine
 
+import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.junit.Test
 import java.util.concurrent.Executors
 
 class RunBlocking {
     val threadPool = Executors.newFixedThreadPool(64)
 
+    // 测试死锁
     @Test
     fun runblocking() {
         repeat(64) {
@@ -36,5 +39,23 @@ class RunBlocking {
         }
 
         Thread.sleep(Long.MAX_VALUE)
+    }
+
+
+    // 测试底层线程池
+    @Test
+    fun testScheduler() {
+        repeat(1) { index ->
+            runBlocking(Dispatchers.Default + CoroutineName("第${index + 1}个协程")) {
+                println("Frank# testScheduler Default thread:${Thread.currentThread().name}")
+                withContext(Dispatchers.IO) {
+                    println("Frank# testScheduler IO thread:${Thread.currentThread().name}")
+                }
+                println("第${index + 1}个协程 结束\n")
+                Thread.sleep(10)
+            }
+        }
+
+        Thread.sleep(5000000)
     }
 }
