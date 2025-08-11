@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingBottom="50dp"
-    android:background="@color/cardview_light_background">
+    android:layout_height="30dp"
+    android:paddingVertical="5dp">
 
     <CheckBox
         android:id="@+id/mSelectCheckBox"
         android:layout_width="16dp"
         android:layout_height="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,12 +19,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:background="@color/cardview_shadow_end_color"
+        android:lines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_default="wrap"
-        tools:text="选项12312312312312312333252345234abcdefghijklmnopqrstuvwxyz---abcdefghijklmnopqrstuvwxyz" />
+        tools:text="选项12" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

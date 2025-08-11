@@ -18,89 +18,89 @@
         android:id="@+id/rview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/cardview_shadow_start_color"
+        android:layout_marginStart="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eleTitle" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rview"
-        app:singleSelection="true">
+    <!--    <com.google.android.material.chip.ChipGroup-->
+    <!--        android:id="@+id/chipGroup"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/rview"-->
+    <!--        app:singleSelection="true">-->
 
-        <TextView
-            android:id="@+id/chip1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/material_dynamic_secondary40"
-            android:text="Chip 11234124312341234123412341件库中的一个容器类视图，用于管理一组" />
+    <!--        <TextView-->
+    <!--            android:id="@+id/chip1"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@color/material_dynamic_secondary40"-->
+    <!--            android:text="Chip 11234124312341234123412341件库中的一个容器类视图，用于管理一组" />-->
 
-        <TextView
-            android:id="@+id/chip2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chip 2" />
+    <!--        <TextView-->
+    <!--            android:id="@+id/chip2"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="Chip 2" />-->
 
-        <TextView
-            android:id="@+id/chip3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chip 3" />
-    </com.google.android.material.chip.ChipGroup>
+    <!--        <TextView-->
+    <!--            android:id="@+id/chip3"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="Chip 3" />-->
+    <!--    </com.google.android.material.chip.ChipGroup>-->
 
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chipGroup">
+    <!--    <androidx.appcompat.widget.LinearLayoutCompat-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/chipGroup">-->
 
-        <com.google.android.flexboxcustom.FlexboxLayout
-            android:id="@+id/flexboxLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:flexDirection="row"
-            app:flexWrap="wrap">
+    <!--        <com.google.android.flexboxcustom.FlexboxLayout-->
+    <!--            android:id="@+id/flexboxLayout"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            app:flexDirection="row"-->
+    <!--            app:flexWrap="wrap">-->
 
-           <!-- <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
-                android:padding="8dp"
-                android:text="Item 11234123123123123" />
+    <!--           &lt;!&ndash; <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:background="@android:color/darker_gray"-->
+    <!--                android:padding="8dp"-->
+    <!--                android:text="Item 11234123123123123" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
-                android:padding="8dp"
-                android:text="Item 231245234523452345234523454523452345234523523522345" />
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:background="@android:color/darker_gray"-->
+    <!--                android:padding="8dp"-->
+    <!--                android:text="Item 231245234523452345234523454523452345234523523522345" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
-                android:paddingVertical="8dp"
-                android:text="Item 3" />
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:background="@android:color/darker_gray"-->
+    <!--                android:paddingVertical="8dp"-->
+    <!--                android:text="Item 3" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
-                android:paddingVertical="8dp"
-                android:text="Item 4" />
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:background="@android:color/darker_gray"-->
+    <!--                android:paddingVertical="8dp"-->
+    <!--                android:text="Item 4" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
-                android:paddingVertical="8dp"
-                android:text="Item 5" />-->
-        </com.google.android.flexboxcustom.FlexboxLayout>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:background="@android:color/darker_gray"-->
+    <!--                android:paddingVertical="8dp"-->
+    <!--                android:text="Item 5" />&ndash;&gt;-->
+    <!--        </com.google.android.flexboxcustom.FlexboxLayout>-->
+    <!--    </androidx.appcompat.widget.LinearLayoutCompat>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
