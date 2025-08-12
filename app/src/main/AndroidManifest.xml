@@ -59,7 +59,7 @@
         <activity
             android:name=".handler.BarrierActivity"
             android:exported="true" />
-        <activity android:name="com.frank.newapplication.rv.RecyclerViewActivity" />
+        <activity android:name="com.frank.newapplication.androidx_rv.RecyclerViewActivity" />
 
         <activity
             android:name=".handler.BarrierActivity2"

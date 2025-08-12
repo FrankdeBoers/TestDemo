@@ -34,7 +34,7 @@ import com.frank.newapplication.http.OkhttpActivity
 import com.frank.newapplication.nestedscroll.CoordinatorLayoutActivity
 import com.frank.newapplication.nestedscroll.NestedScrollActivity
 import com.frank.newapplication.nestedscroll.NestedScrollDemoActivity
-import com.frank.newapplication.rv.RecyclerViewActivity
+import com.frank.newapplication.androidx_rv.RecyclerViewActivity
 import com.frank.newapplication.threadpool.ThreadPoolActivity
 import com.frank.newapplication.weakreference.WeakReferenceActivity
 
