@@ -93,6 +93,8 @@ import androidx.customview.view.AbsSavedState;
 import androidx.recyclerview.R;
 import androidx.recyclerview.widget.RecyclerView.ItemAnimator.ItemHolderInfo;
 
+import com.frank.newapplication.rv.SelectViewHolder;
+
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -6993,7 +6995,13 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                 holder = getChangedScrapViewForPosition(position);
                 fromScrapOrHiddenOrCache = holder != null;
             }
+            log("findViewHolder()# holder is null:" + (holder == null) + ", isPreLayout:" + mState.isPreLayout() + ", mAttachedScrap size:" + (mAttachedScrap.size()));
             // 1) Find by position from scrap/hidden list/cache
+            if (mAttachedScrap.size() > 0) {
+                log("findViewHolder()# item tag is:" + ((mAttachedScrap.get(0)).itemView.getTag()));
+            }
+
+//            logScraped(mAttachedScrap);
             if (holder == null) {
                 holder = getScrapOrHiddenOrCachedHolderForPosition(position, dryRun);
                 if (holder != null) {
@@ -7074,6 +7082,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                         // abort - we have a deadline we can't meet
                         return null;
                     }
+                    log("findViewHolder()# not find holde--->createViewHolder");
                     holder = mAdapter.createViewHolder(RecyclerView.this, type);
                     if (ALLOW_THREAD_GAP_WORK) {
                         // only bother finding nested RV if prefetching
@@ -7420,12 +7429,14 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                             + " recycler pool." + exceptionLabel());
                 }
                 holder.setScrapContainer(this, false);
+                log("scrapView()# mAttachedScrap add holder tag is:" + (view.getTag()));
                 mAttachedScrap.add(holder);
             } else {
                 if (mChangedScrap == null) {
                     mChangedScrap = new ArrayList<ViewHolder>();
                 }
                 holder.setScrapContainer(this, true);
+                log("scrapView()# mChangedScrap add holder tag is:" + (view.getTag()));
                 mChangedScrap.add(holder);
             }
         }
@@ -7509,6 +7520,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                 if (!holder.wasReturnedFromScrap() && holder.getLayoutPosition() == position
                         && !holder.isInvalid() && (mState.mInPreLayout || !holder.isRemoved())) {
                     holder.addFlags(ViewHolder.FLAG_RETURNED_FROM_SCRAP);
+                    log("findViewHolder()# find holder and tag is:" + ((SelectViewHolder) holder).getTextView().getTag());
                     return holder;
                 }
             }
@@ -10234,6 +10246,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
             final int childCount = getChildCount();
             for (int i = childCount - 1; i >= 0; i--) {
                 final View v = getChildAt(i);
+                log("detachAndScrap()# view tag is :" + (v.getTag()));
                 scrapOrRecycleView(recycler, i, v);
             }
         }
@@ -14751,5 +14764,17 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                 // The setFrameContentVelocity method is unavailable on this device.
             }
         }
+    }
+
+    private void logScraped(ArrayList<ViewHolder> mAttachedScrap) {
+        final int scrapCount = mAttachedScrap.size();
+        // Try first for an exact, non-invalid match from scrap.
+        for (int i = 0; i < scrapCount; i++) {
+            log("logScraped item tag is:" + ((mAttachedScrap.get(i)).itemView.getTag()));
+        }
+    }
+
+    static void log(String message) {
+        Log.d("FrankTest", message);
     }
 }

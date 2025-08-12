@@ -6,13 +6,13 @@
     android:layout_height="30dp"
     android:paddingVertical="5dp">
 
-    <CheckBox
-        android:id="@+id/mSelectCheckBox"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <CheckBox-->
+<!--        android:id="@+id/mSelectCheckBox"-->
+<!--        android:layout_width="16dp"-->
+<!--        android:layout_height="16dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <TextView
         android:id="@+id/mSelectTV"

@@ -16,6 +16,8 @@
 
 package androidx.recyclerview.widget;
 
+import static androidx.recyclerview.widget.RecyclerView.log;
+
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -226,6 +228,7 @@ class ChildHelper {
      */
     View getChildAt(int index) {
         final int offset = getOffset(index);
+        log("getChildAt()# index:" + index + ", offset:" + offset);
         return mCallback.getChildAt(offset);
     }
 
