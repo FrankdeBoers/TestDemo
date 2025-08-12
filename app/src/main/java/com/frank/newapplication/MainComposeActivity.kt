@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.frank.newapplication.BitmapActivity.BitmapActivity
+import com.frank.newapplication.androidx_rv.RVNoAnimActivity
 import com.frank.newapplication.coroutine.CoroutineActivity
 import com.frank.newapplication.coroutine.CoroutineExceptionDemoActivity
 import com.frank.newapplication.handler.BarrierActivity2
@@ -111,6 +112,9 @@ fun FunctionButtonsGrid(context: android.content.Context, webSocket: SocketManag
         },
         FunctionButton("RecyclerView测试") {
             context.startActivity(Intent(context, RecyclerViewActivity::class.java))
+        },
+        FunctionButton("RecyclerView无动画") {
+            context.startActivity(Intent(context, RVNoAnimActivity::class.java))
         },
         FunctionButton("安全页面（禁止截屏）") {
             try {

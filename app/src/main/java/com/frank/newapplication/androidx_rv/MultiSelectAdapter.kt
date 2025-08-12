@@ -1,6 +1,5 @@
 package com.frank.newapplication.androidx_rv
 
-import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,13 +15,11 @@ import java.util.concurrent.atomic.AtomicInteger
 // RV adapter
 class MultiSelectAdapter(private val clickCallback: (Int) -> Unit) : ListAdapter<SelectModel, SelectViewHolder>(MultiSelectDiffCallback()) {
 
-    companion object {
-        var counter = AtomicInteger(0)
-    }
+    var counter = AtomicInteger(0)
 
     var data = mutableListOf(
         SelectModel(id = 1, isChecked = false),
-        SelectModel(id = 2, isChecked = false)
+//        SelectModel(id = 2, isChecked = false)
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectViewHolder {
@@ -31,18 +28,18 @@ class MultiSelectAdapter(private val clickCallback: (Int) -> Unit) : ListAdapter
         view.findViewById<TextView>(R.id.mSelectTV).tag = counter.get()
         view.tag = counter.get()
         // 设置tag
-        Log.d("Frank##", "onCreateViewHolder tag:${view.findViewById<TextView>(R.id.mSelectTV).tag}")
+        Log.d("Frank##Adapter", "onCreateViewHolder tag:${view.findViewById<TextView>(R.id.mSelectTV).tag}")
         return SelectViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: SelectViewHolder, position: Int) {
-        Log.d("Frank##", "onBindViewHolder tag:${holder.textView.tag}, isChecked:${holder.mSelectCheckBox.isChecked}, holder:${holder.hashCode()}")
+        Log.d("Frank##Adapter", "before onBindViewHolder tag:${holder.textView.tag}, isChecked:${holder.mSelectCheckBox.isChecked}, holder:${holder.hashCode()}")
         holder.mSelectCheckBox.isChecked = data.getOrNull(position)?.isChecked ?: false
         holder.textView.text = "Tag is " + holder.textView.tag.toString()
         holder.textView.setOnClickListener {
             clickCallback.invoke(position)
         }
+        Log.d("Frank##Adapter", "after onBindViewHolder tag:${holder.textView.tag}, isChecked:${holder.mSelectCheckBox.isChecked}, holder:${holder.hashCode()}")
     }
 
     fun refreshData(newData: List<SelectModel>) {
@@ -50,12 +47,6 @@ class MultiSelectAdapter(private val clickCallback: (Int) -> Unit) : ListAdapter
         submitList(newData)
         data = newData.toMutableList()
     }
-}
-
-// ViewHolder
-class SelectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val textView: TextView = itemView.findViewById<TextView>(R.id.mSelectTV)
-    val mSelectCheckBox: CheckBox = itemView.findViewById<CheckBox>(R.id.mSelectCheckBox)
 }
 
 // 数据
@@ -66,9 +57,11 @@ data class SelectModel(
 
 /**
  * DiffUtil.ItemCallback 实现，用于高效比较数据项变化
+ * 进入页面，item1-->onCreate，选中态false      item2-->onCreate，选中态false
+ * 首次点击item1 item1-->onCreateViewHolder
+ * 重复点击item1 item1-->onBindViewHolder
  */
 class MultiSelectDiffCallback : DiffUtil.ItemCallback<SelectModel>() {
-
     override fun areItemsTheSame(oldItem: SelectModel, newItem: SelectModel): Boolean {
         // 使用 title 作为唯一标识符，因为每个选项的标题应该是唯一的
         return oldItem.id == newItem.id
@@ -79,4 +72,12 @@ class MultiSelectDiffCallback : DiffUtil.ItemCallback<SelectModel>() {
         return oldItem.id == newItem.id &&
                 oldItem.isChecked == newItem.isChecked
     }
+}
+
+
+
+// ViewHolder
+class SelectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val textView: TextView = itemView.findViewById<TextView>(R.id.mSelectTV)
+    val mSelectCheckBox: CheckBox = itemView.findViewById<CheckBox>(R.id.mSelectCheckBox)
 }

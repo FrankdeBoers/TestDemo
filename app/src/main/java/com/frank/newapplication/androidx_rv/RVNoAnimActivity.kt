@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.frank.newapplication.databinding.ActivityRvBinding
 
 
-class RecyclerViewActivity : AppCompatActivity() {
+class RVNoAnimActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRvBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +23,7 @@ class RecyclerViewActivity : AppCompatActivity() {
         val linearLayout = LinearLayoutManager(binding.root.context)
         binding.rview.setLayoutManager(linearLayout);
         // 取消item动画
-//        binding.rview.itemAnimator = null
+        binding.rview.itemAnimator = null
         // 创建适配器
         adapter = MultiSelectAdapter { clickedPosition ->
             // 点击后更改数据

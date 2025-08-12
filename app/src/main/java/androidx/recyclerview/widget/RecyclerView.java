@@ -4938,6 +4938,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
 
         mState.mRunPredictiveAnimations = false;
         mLayout.mRequestedSimpleAnimations = false;
+        // 清空mChangedScrap
         if (mRecycler.mChangedScrap != null) {
             mRecycler.mChangedScrap.clear();
         }
@@ -6990,9 +6991,9 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
             }
             boolean fromScrapOrHiddenOrCache = false;
             ViewHolder holder = null;
-            // 0) If there is a changed scrap, try to find from there
+            // 【步骤 0】预布局阶段：从 changed scrap 中查找 ViewHolder
             if (mState.isPreLayout()) {
-                holder = getChangedScrapViewForPosition(position);
+                holder = getChangedScrapViewForPosition(position);  // 第1次给 holder 赋值
                 fromScrapOrHiddenOrCache = holder != null;
             }
             log("findViewHolder()# holder is null:" + (holder == null) + ", isPreLayout:" + mState.isPreLayout() + ", mAttachedScrap size:" + (mAttachedScrap.size()));
@@ -7002,8 +7003,13 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
             }
 
 //            logScraped(mAttachedScrap);
+            // 【步骤 1】从 scrap/hidden/cache 中查找 ViewHolder
             if (holder == null) {
-                holder = getScrapOrHiddenOrCachedHolderForPosition(position, dryRun);
+                holder = getScrapOrHiddenOrCachedHolderForPosition(position, dryRun);  // 第2次给 holder 赋值
+                log("New## getScrap holder is:" + holder);
+                if (mAttachedScrap.size() > 0) {
+                    log("New## getScrap scrap is:" + ((mAttachedScrap.get(0))));
+                }
                 if (holder != null) {
                     if (!validateViewHolderForOffsetPosition(holder)) {
                         // recycle holder (and unscrap if relevant) since it can't be used
@@ -7019,12 +7025,13 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                             }
                             recycleViewHolderInternal(holder);
                         }
-                        holder = null;
+                        holder = null;  // 第3次给 holder 赋值（重置为 null）
                     } else {
                         fromScrapOrHiddenOrCache = true;
                     }
                 }
             }
+            // 【步骤 2】通过 stable ids 从 scrap/cache 中查找 ViewHolder
             if (holder == null) {
                 final int offsetPosition = mAdapterHelper.findPositionOffset(position);
                 if (offsetPosition < 0 || offsetPosition >= mAdapter.getItemCount()) {
@@ -7037,20 +7044,21 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                 // 2) Find from scrap/cache via stable ids, if exists
                 if (mAdapter.hasStableIds()) {
                     holder = getScrapOrCachedViewForId(mAdapter.getItemId(offsetPosition),
-                            type, dryRun);
+                            type, dryRun);  // 第4次给 holder 赋值
                     if (holder != null) {
                         // update position
                         holder.mPosition = offsetPosition;
                         fromScrapOrHiddenOrCache = true;
                     }
                 }
+                // 【步骤 3】从 ViewCacheExtension 中查找 ViewHolder
                 if (holder == null && mViewCacheExtension != null) {
                     // We are NOT sending the offsetPosition because LayoutManager does not
                     // know it.
                     final View view = mViewCacheExtension
                             .getViewForPositionAndType(this, position, type);
                     if (view != null) {
-                        holder = getChildViewHolder(view);
+                        holder = getChildViewHolder(view);  // 第5次给 holder 赋值
                         if (holder == null) {
                             throw new IllegalArgumentException("getViewForPositionAndType returned"
                                     + " a view which does not have a ViewHolder"
@@ -7062,12 +7070,13 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                         }
                     }
                 }
+                // 【步骤 4】从 RecycledViewPool 中获取 ViewHolder
                 if (holder == null) { // fallback to pool
                     if (sVerboseLoggingEnabled) {
                         Log.d(TAG, "tryGetViewHolderForPositionByDeadline("
                                 + position + ") fetching from shared pool");
                     }
-                    holder = getRecycledViewPool().getRecycledView(type);
+                    holder = getRecycledViewPool().getRecycledView(type);  // 第6次给 holder 赋值
                     if (holder != null) {
                         holder.resetInternal();
                         if (FORCE_INVALIDATE_DISPLAY_LIST) {
@@ -7075,6 +7084,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                         }
                     }
                 }
+                // 【步骤 5】创建新的 ViewHolder（最后手段）
                 if (holder == null) {
                     long start = getNanoTime();
                     if (deadlineNs != FOREVER_NS
@@ -7083,7 +7093,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                         return null;
                     }
                     log("findViewHolder()# not find holde--->createViewHolder");
-                    holder = mAdapter.createViewHolder(RecyclerView.this, type);
+                    holder = mAdapter.createViewHolder(RecyclerView.this, type);  // 第7次给 holder 赋值
                     if (ALLOW_THREAD_GAP_WORK) {
                         // only bother finding nested RV if prefetching
                         RecyclerView innerView = findNestedRecyclerView(holder.itemView);
@@ -7451,6 +7461,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
             if (holder.mInChangeScrap) {
                 mChangedScrap.remove(holder);
             } else {
+                log("New## unscrapView() remove holder:" + holder);
                 mAttachedScrap.remove(holder);
             }
             holder.mScrapContainer = null;
@@ -7593,6 +7604,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                         // if we are running animations, it is actually better to keep it in scrap
                         // but this would force layout manager to lay it out which would be bad.
                         // Recycle this scrap. Type mismatch.
+                        log("New## getScrapOrCachedViewForId() remove holder:" + holder);
                         mAttachedScrap.remove(i);
                         removeDetachedView(holder.itemView, false);
                         quickRecycleScrapView(holder.itemView);
