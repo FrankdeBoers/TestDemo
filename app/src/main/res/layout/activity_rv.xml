@@ -15,6 +15,7 @@
         tools:text="标题" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="100dp"
         android:id="@+id/rview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
