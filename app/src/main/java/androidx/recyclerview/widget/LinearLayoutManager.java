@@ -607,6 +607,8 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements
     @Override
     @SuppressLint("UnknownNullness") // b/240775049: Cannot annotate properly
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+        Log.d("FrankTest", "LinearLayoutManager## onLayoutChildren");
+
         // layout algorithm:
         // 1) by checking children and other variables, find an anchor coordinate and an anchor
         //  item position.

@@ -4224,6 +4224,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
 
     @Override
     protected void onMeasure(int widthSpec, int heightSpec) {
+        log("RecyclerView## onMeasure");
         if (mLayout == null) {
             defaultOnMeasure(widthSpec, heightSpec);
             return;
@@ -4752,6 +4753,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
      * - If necessary, run predictive layout and save its information
      */
     private void dispatchLayoutStep1() {
+        log("RecyclerView## dispatchLayoutStep1");
         mState.assertLayoutStep(State.STEP_START);
         fillRemainingScrollValues(mState);
         mState.mIsMeasuring = false;
@@ -4767,6 +4769,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
         findMinMaxChildLayoutPositions(mMinMaxLayoutPositions);
 
         if (mState.mRunSimpleAnimations) {
+            Long start = System.currentTimeMillis();
             // Step 0: Find out where all non-removed items are, pre-layout
             int count = mChildHelper.getChildCount();
             for (int i = 0; i < count; ++i) {
@@ -4792,8 +4795,11 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                     mViewInfoStore.addToOldChangeHolders(key, holder);
                 }
             }
+            log("RecyclerView## dispatchLayoutStep1 mRunSimpleAnimations cost:" + (System.currentTimeMillis() - start) + "ms");
         }
         if (mState.mRunPredictiveAnimations) {
+            Long start = System.currentTimeMillis();
+
             // Step 1: run prelayout: This will use the old positions of items. The layout manager
             // is expected to layout everything, even removed items (though not to add removed
             // items back to the container). This gives the pre-layout position of APPEARING views
@@ -4829,6 +4835,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                     }
                 }
             }
+            log("RecyclerView## dispatchLayoutStep1 mRunPredictiveAnimations cost:" + (System.currentTimeMillis() - start) + "ms");
             // we don't process disappearing list because they may re-appear in post layout pass.
             clearOldPositions();
         } else {
@@ -4844,6 +4851,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
      * This step might be run multiple times if necessary (e.g. measure).
      */
     private void dispatchLayoutStep2() {
+        log("RecyclerView## dispatchLayoutStep2");
         startInterceptRequestLayout();
         onEnterLayoutOrScroll();
         mState.assertLayoutStep(State.STEP_LAYOUT | State.STEP_ANIMATIONS);
@@ -4874,11 +4882,13 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
      * trigger animations and do any necessary cleanup.
      */
     private void dispatchLayoutStep3() {
+        log("RecyclerView## dispatchLayoutStep3");
         mState.assertLayoutStep(State.STEP_ANIMATIONS);
         startInterceptRequestLayout();
         onEnterLayoutOrScroll();
         mState.mLayoutStep = State.STEP_START;
         if (mState.mRunSimpleAnimations) {
+            Long start = System.currentTimeMillis();
             // Step 3: Find out where things are now, and process change animations.
             // traverse list in reverse because we may call animateChange in the loop which may
             // remove the target view holder.
@@ -4924,6 +4934,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                 } else {
                     mViewInfoStore.addToPostLayout(holder, animationInfo);
                 }
+                log("RecyclerView## dispatchLayoutStep3 mRunSimpleAnimations cost:" + (System.currentTimeMillis() - start) + "ms");
             }
 
             // Step 4: Process view info lists and trigger animations
@@ -5132,6 +5143,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        log("RecyclerView## onLayout");
         Trace.beginSection(TRACE_ON_LAYOUT_TAG);
         dispatchLayout();
         Trace.endSection();
@@ -5219,6 +5231,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
 
     @Override
     public void onDraw(@NonNull Canvas c) {
+        log("RecyclerView## onDraw");
         super.onDraw(c);
 
         final int count = mItemDecorations.size();
@@ -6984,6 +6997,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
          */
         @Nullable ViewHolder tryGetViewHolderForPositionByDeadline(int position,
                 boolean dryRun, long deadlineNs) {
+            log("RecyclerView## tryGetViewHolderForPositionByDeadline");
             if (position < 0 || position >= mState.getItemCount()) {
                 throw new IndexOutOfBoundsException("Invalid item position " + position
                         + "(" + position + "). Item count:" + mState.getItemCount()
@@ -6996,7 +7010,15 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                 holder = getChangedScrapViewForPosition(position);  // 第1次给 holder 赋值
                 fromScrapOrHiddenOrCache = holder != null;
             }
-            log("findViewHolder()# holder is null:" + (holder == null) + ", isPreLayout:" + mState.isPreLayout() + ", mAttachedScrap size:" + (mAttachedScrap.size()));
+            int changedSize = 0;
+            if (mChangedScrap != null) {
+                changedSize = mChangedScrap.size();
+            }
+            log("findViewHolder()# holder is null:" + (holder == null) + ", isPreLayout:" + mState.isPreLayout()
+                    + ", mAttachedScrap size:" + (mAttachedScrap.size())
+                    + ", mChangedScrap size:" + (changedSize)
+                    + ", mCachedViews size:" + (mCachedViews.size())
+                    + ", viewPool size:" + (getRecycledViewPool().size()));
             // 1) Find by position from scrap/hidden list/cache
             if (mAttachedScrap.size() > 0) {
                 log("findViewHolder()# item tag is:" + ((mAttachedScrap.get(0)).itemView.getTag()));

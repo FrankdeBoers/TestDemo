@@ -19,7 +19,35 @@ class MultiSelectAdapter(private val clickCallback: (Int) -> Unit) : ListAdapter
 
     var data = mutableListOf(
         SelectModel(id = 1, isChecked = false),
-//        SelectModel(id = 2, isChecked = false)
+        SelectModel(id = 2, isChecked = false),
+        SelectModel(id = 3, isChecked = false),
+        SelectModel(id = 4, isChecked = false),
+        SelectModel(id = 5, isChecked = false),
+        SelectModel(id = 6, isChecked = false),
+        SelectModel(id = 7, isChecked = false),
+        SelectModel(id = 8, isChecked = false),
+        SelectModel(id = 9, isChecked = false),
+        SelectModel(id = 10, isChecked = false),
+        SelectModel(id = 11, isChecked = false),
+        SelectModel(id = 12, isChecked = false),
+        SelectModel(id = 13, isChecked = false),
+        SelectModel(id = 14, isChecked = false),
+        SelectModel(id = 15, isChecked = false),
+        SelectModel(id = 16, isChecked = false),
+        SelectModel(id = 17, isChecked = false),
+        SelectModel(id = 18, isChecked = false),
+        SelectModel(id = 19, isChecked = false),
+        SelectModel(id = 20, isChecked = false),
+        SelectModel(id = 21, isChecked = false),
+        SelectModel(id = 22, isChecked = false),
+        SelectModel(id = 23, isChecked = false),
+        SelectModel(id = 24, isChecked = false),
+        SelectModel(id = 25, isChecked = false),
+        SelectModel(id = 26, isChecked = false),
+        SelectModel(id = 27, isChecked = false),
+        SelectModel(id = 28, isChecked = false),
+        SelectModel(id = 29, isChecked = false),
+        SelectModel(id = 30, isChecked = false)
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectViewHolder {
