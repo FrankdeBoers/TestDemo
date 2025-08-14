@@ -30,6 +30,8 @@ class RecyclerViewActivity : AppCompatActivity() {
             Log.d("Frank###", "clickedPosition:$clickedPosition")
             refreshData(clickedPosition)
         }
+        // 设置稳定ID，解决ViewHolder复用问题
+        adapter.setHasStableIds(true)
         // 提交初始数据
         adapter.submitList(adapter.data)
         binding.rview.setAdapter(adapter)

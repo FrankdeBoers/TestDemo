@@ -72,6 +72,14 @@ class MultiSelectAdapter(private val clickCallback: (Int) -> Unit) : ListAdapter
         Log.d("Frank##Adapter", "after onBindViewHolder tag:${holder.textView.tag}, isChecked:${holder.mSelectCheckBox.isChecked}, holder:${holder.hashCode()}")
     }
 
+    /**
+     * 重写 getItemId 方法，为每个 item 提供稳定的唯一标识
+     * 当 setHasStableIds(true) 时，RecyclerView 会调用此方法
+     */
+    override fun getItemId(position: Int): Long {
+        return data.getOrNull(position)?.id?.toLong() ?: RecyclerView.NO_ID
+    }
+
     fun refreshData(newData: List<SelectModel>) {
         // 使用 DiffUtil 高效更新数据
         submitList(newData)

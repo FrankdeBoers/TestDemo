@@ -92,8 +92,8 @@ class CoroutineActivity : BaseActivity() {
             lifecycleScope.launch {
                 Log.i("FrankTest", "$logTag coroutine# name1:${Thread.currentThread().name}")
                 val startTime = System.currentTimeMillis()
-                val file1 = "/data/data/com.frank.newapplication/files/HoYowave_mac_x64_1.13.0-alpha(0117.094509.dev.1a1ee434ac).dmg"
-                val file2 = "/data/data/com.frank.newapplication/files/HoYowave_mac_x64_1.13.0-alpha(0117.094509.dev.1a1ee434ac)_副本2.dmg"
+                val file1 = "/data/data/com.frank.newapplication/files/ff123.dmg"
+                val file2 = "/data/data/com.frank.newapplication/files/ff456.dmg"
                 val hash1 = async {
                     delay(300L)
                     Log.i("FrankTest", "$logTag coroutine# hash1 start name:${Thread.currentThread().name}")
